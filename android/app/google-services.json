@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "157988426875",
+    "project_id": "blogyavuzkcom-1y59jf",
+    "storage_bucket": "blogyavuzkcom-1y59jf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157988426875:android:67915624c954820d7dbede",
+        "android_client_info": {
+          "package_name": "net.cidqu.blogyavuz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0Vee78350A1YcLDDs-XRL0HAzdNQ2rA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
