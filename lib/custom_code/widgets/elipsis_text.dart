@@ -39,10 +39,10 @@ class _ElipsisTextState extends State<ElipsisText> {
         style: TextStyle(
           fontFamily: 'Inter',
           fontSize: 16,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w400,
           color: widget.textColor,
         ),
-        maxLines: 2,
+        maxLines: 5,
         overflow: TextOverflow.ellipsis,
       ),
     );

@@ -1,13 +1,12 @@
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
+import '/components/blog_icerigi_widget.dart';
 import '/flutter_flow/flutter_flow_language_selector.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
@@ -27,6 +26,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HomePageModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -72,10 +73,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     iconPadding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: FlutterFlowTheme.of(context).secondary,
+                    color: FlutterFlowTheme.of(context).primaryText,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Inter Tight',
-                          color: FlutterFlowTheme.of(context).primaryText,
+                          color: FlutterFlowTheme.of(context).primaryBackground,
                           letterSpacing: 0.0,
                         ),
                     elevation: 0.0,
@@ -157,126 +158,170 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       children:
                           List.generate(wrapBlogRecordList.length, (wrapIndex) {
                         final wrapBlogRecord = wrapBlogRecordList[wrapIndex];
-                        return Container(
-                          width: 400.0,
-                          height: 160.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(6.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      valueOrDefault<String>(
-                                        FFLocalizations.of(context)
-                                                    .languageCode ==
-                                                'en'
-                                            ? wrapBlogRecord.blogIsimEN
-                                            : wrapBlogRecord.blogIsim,
-                                        'IF YOU\'RE SEEING THIS THEN I\'M FUCKED',
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .titleLarge
-                                          .override(
-                                            fontFamily: 'Inter Tight',
-                                            letterSpacing: 0.0,
-                                          ),
+                        return InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            _model.apiResultg6g =
+                                await GoruntulePostuCall.call();
+
+                            await showModalBottomSheet(
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              useSafeArea: true,
+                              context: context,
+                              builder: (context) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    FocusScope.of(context).unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  },
+                                  child: Padding(
+                                    padding: MediaQuery.viewInsetsOf(context),
+                                    child: BlogIcerigiWidget(
+                                      blogNo: wrapBlogRecord.blogNo,
                                     ),
-                                  ],
-                                ),
-                                Container(
-                                  width: double.infinity,
-                                  height: 100.0,
-                                  child: custom_widgets.ElipsisText(
+                                  ),
+                                );
+                              },
+                            ).then((value) => safeSetState(() {}));
+
+                            safeSetState(() {});
+                          },
+                          child: Container(
+                            width: 400.0,
+                            height: 160.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        valueOrDefault<String>(
+                                          FFLocalizations.of(context)
+                                                      .languageCode ==
+                                                  'en'
+                                              ? wrapBlogRecord.blogIsimEN
+                                              : wrapBlogRecord.blogIsim,
+                                          'IF YOU\'RE SEEING THIS THEN I\'M FUCKED',
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .override(
+                                              fontFamily: 'Inter Tight',
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w800,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
                                     width: double.infinity,
                                     height: 100.0,
-                                    input: FFLocalizations.of(context)
-                                                .languageCode ==
-                                            'en'
-                                        ? wrapBlogRecord.blogIceigiEN
-                                        : wrapBlogRecord.blogIcerigi,
-                                    textColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
+                                    child: custom_widgets.ElipsisText(
+                                      width: double.infinity,
+                                      height: 100.0,
+                                      input: FFLocalizations.of(context)
+                                                  .languageCode ==
+                                              'en'
+                                          ? wrapBlogRecord.blogIceigiEN
+                                          : wrapBlogRecord.blogIcerigi,
+                                      textColor: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
                                   ),
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      dateTimeFormat(
-                                        "yMMMd",
-                                        wrapBlogRecord.yuklenmeTarihi!,
-                                        locale: FFLocalizations.of(context)
-                                            .languageCode,
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        dateTimeFormat(
+                                          "yMMMd",
+                                          wrapBlogRecord.yuklenmeTarihi!,
+                                          locale: FFLocalizations.of(context)
+                                              .languageCode,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Inter',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryText,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Inter',
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Icon(
+                                            Icons.remove_red_eye,
                                             color: FlutterFlowTheme.of(context)
-                                                .secondary,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.bold,
+                                                .primaryText,
+                                            size: 16.0,
                                           ),
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Icon(
-                                          Icons.remove_red_eye,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          size: 16.0,
-                                        ),
-                                        Text(
-                                          wrapBlogRecord.goruntulenmeSayisi
-                                              .toString(),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondary,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                        Icon(
-                                          Icons.favorite,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          size: 16.0,
-                                        ),
-                                        Text(
-                                          wrapBlogRecord.likeSayisi.toString(),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondary,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                          Text(
+                                            wrapBlogRecord.goruntulenmeSayisi
+                                                .toString(),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Inter',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    5.0, 0.0, 0.0, 0.0),
+                                            child: Icon(
+                                              Icons.favorite,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 16.0,
+                                            ),
+                                          ),
+                                          Text(
+                                            wrapBlogRecord.likeSayisi
+                                                .toString(),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Inter',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );

@@ -148,15 +148,26 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   {
     '3jt752y9': {
       'en': 'Back To Main Page',
-      'tr': '',
+      'tr': 'Ana Sayfaya Dön',
     },
     '67qmizqw': {
       'en': 'Yavuz\'s Blog Page',
-      'tr': '',
+      'tr': 'Yavuz\'un Blog Sayfası',
     },
     '7z0uw5ww': {
       'en': 'Home',
-      'tr': '',
+      'tr': 'Ev',
+    },
+  },
+  // blogIcerigi
+  {
+    '37nsk6ph': {
+      'en': 'Go Back',
+      'tr': 'Geri Dön',
+    },
+    'dad61mju': {
+      'en': 'Like',
+      'tr': 'Beğen',
     },
   },
   // Miscellaneous
