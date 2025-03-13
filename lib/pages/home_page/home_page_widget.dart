@@ -1,17 +1,22 @@
-import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/components/blog_icerigi_widget.dart';
 import '/flutter_flow/flutter_flow_language_selector.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({super.key});
+
+  static String routeName = 'HomePage';
+  static String routePath = '/homePage';
 
   @override
   State<HomePageWidget> createState() => _HomePageWidgetState();
@@ -164,9 +169,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            _model.apiResultg6g =
-                                await GoruntulePostuCall.call();
-
                             await showModalBottomSheet(
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
@@ -188,8 +190,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 );
                               },
                             ).then((value) => safeSetState(() {}));
-
-                            safeSetState(() {});
                           },
                           child: Container(
                             width: 400.0,
@@ -270,26 +270,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          Icon(
-                                            Icons.remove_red_eye,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            size: 16.0,
-                                          ),
-                                          Text(
-                                            wrapBlogRecord.goruntulenmeSayisi
-                                                .toString(),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Inter',
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryText,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                          ),
                                           Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(

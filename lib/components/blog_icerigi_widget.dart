@@ -1,12 +1,17 @@
-import '/backend/api_requests/api_calls.dart';
+import '/auth/base_auth_user_provider.dart';
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/index.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'blog_icerigi_model.dart';
 export 'blog_icerigi_model.dart';
 
@@ -71,7 +76,7 @@ class _BlogIcerigiWidgetState extends State<BlogIcerigiWidget> {
                   stream: queryBlogRecord(
                     queryBuilder: (blogRecord) => blogRecord.where(
                       'blogNo',
-                      isEqualTo: widget.blogNo,
+                      isEqualTo: widget!.blogNo,
                     ),
                     singleRecord: true,
                   ),
@@ -195,123 +200,136 @@ class _BlogIcerigiWidgetState extends State<BlogIcerigiWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 16.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        Navigator.pop(context);
-                                      },
-                                      text: FFLocalizations.of(context).getText(
-                                        '37nsk6ph' /* Go Back */,
-                                      ),
-                                      options: FFButtonOptions(
-                                        padding: EdgeInsets.all(24.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .labelLarge
-                                            .override(
-                                              fontFamily: 'Inter',
-                                              letterSpacing: 0.0,
-                                            ),
-                                        elevation: 0.0,
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .alternate,
-                                          width: 2.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                    ),
-                                  ),
                                   FFButtonWidget(
                                     onPressed: () async {
-                                      _model.apiResultvxy =
-                                          await BegenPostuCall.call(
-                                        postNo: profileCardBlogRecord.blogNo,
-                                      );
-
-                                      if ((_model.apiResultvxy?.succeeded ??
-                                          true)) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              FFLocalizations.of(context)
-                                                  .getVariableText(
-                                                enText: 'Success!',
-                                                trText: 'İşlem başarılı!',
-                                              ),
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                              ),
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .success,
-                                          ),
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              FFLocalizations.of(context)
-                                                  .getVariableText(
-                                                enText: 'Failed :(',
-                                                trText: 'İşlem başarısız :(',
-                                              ),
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                              ),
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .error,
-                                          ),
-                                        );
-                                      }
-
-                                      safeSetState(() {});
+                                      Navigator.pop(context);
                                     },
                                     text: FFLocalizations.of(context).getText(
-                                      'dad61mju' /* Like */,
+                                      '37nsk6ph' /* Go Back */,
                                     ),
                                     options: FFButtonOptions(
                                       padding: EdgeInsets.all(24.0),
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
                                       textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
+                                          .labelLarge
                                           .override(
-                                            fontFamily: 'Inter Tight',
-                                            color: Colors.white,
+                                            fontFamily: 'Inter',
                                             letterSpacing: 0.0,
                                           ),
-                                      elevation: 1.0,
+                                      elevation: 0.0,
                                       borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
+                                        width: 2.0,
                                       ),
                                       borderRadius: BorderRadius.circular(12.0),
                                     ),
                                   ),
+                                  if (!(currentUserDocument?.begenilenIcerikler
+                                              ?.toList() ??
+                                          [])
+                                      .contains(widget!.blogNo))
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 0.0, 0.0, 0.0),
+                                      child: AuthUserStreamWidget(
+                                        builder: (context) => FFButtonWidget(
+                                          onPressed: () async {
+                                            Function() _navigate = () {};
+                                            if (loggedIn) {
+                                              await profileCardBlogRecord!
+                                                  .reference
+                                                  .update({
+                                                ...mapToFirestore(
+                                                  {
+                                                    'likeSayisi':
+                                                        FieldValue.increment(1),
+                                                  },
+                                                ),
+                                              });
+
+                                              await currentUserReference!
+                                                  .update({
+                                                ...mapToFirestore(
+                                                  {
+                                                    'begenilenIcerikler':
+                                                        FieldValue.arrayUnion(
+                                                            [widget!.blogNo]),
+                                                  },
+                                                ),
+                                              });
+                                            } else {
+                                              GoRouter.of(context)
+                                                  .prepareAuthEvent();
+                                              final user = await authManager
+                                                  .signInAnonymously(context);
+                                              if (user == null) {
+                                                return;
+                                              }
+                                              _navigate = () =>
+                                                  context.goNamedAuth(
+                                                      HomePageWidget.routeName,
+                                                      context.mounted);
+
+                                              await profileCardBlogRecord!
+                                                  .reference
+                                                  .update({
+                                                ...mapToFirestore(
+                                                  {
+                                                    'likeSayisi':
+                                                        FieldValue.increment(1),
+                                                  },
+                                                ),
+                                              });
+
+                                              await currentUserReference!
+                                                  .update({
+                                                ...mapToFirestore(
+                                                  {
+                                                    'begenilenIcerikler':
+                                                        FieldValue.arrayUnion(
+                                                            [widget!.blogNo]),
+                                                  },
+                                                ),
+                                              });
+                                            }
+
+                                            _navigate();
+                                          },
+                                          text: FFLocalizations.of(context)
+                                              .getText(
+                                            'dad61mju' /* Like */,
+                                          ),
+                                          options: FFButtonOptions(
+                                            padding: EdgeInsets.all(24.0),
+                                            iconPadding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 0.0, 0.0),
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            textStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .override(
+                                                      fontFamily: 'Inter Tight',
+                                                      color: Colors.white,
+                                                      letterSpacing: 0.0,
+                                                    ),
+                                            elevation: 1.0,
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
