@@ -9,6 +9,7 @@ import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
@@ -133,7 +134,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 0.0),
                 child: StreamBuilder<List<BlogRecord>>(
-                  stream: queryBlogRecord(),
+                  stream: queryBlogRecord(
+                    queryBuilder: (blogRecord) =>
+                        blogRecord.orderBy('yuklenmeTarihi', descending: true),
+                  ),
                   builder: (context, snapshot) {
                     // Customize what your widget looks like when it's loading.
                     if (!snapshot.hasData) {
@@ -175,16 +179,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               useSafeArea: true,
                               context: context,
                               builder: (context) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    FocusScope.of(context).unfocus();
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  child: Padding(
-                                    padding: MediaQuery.viewInsetsOf(context),
-                                    child: BlogIcerigiWidget(
-                                      blogNo: wrapBlogRecord.blogNo,
+                                return WebViewAware(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      FocusScope.of(context).unfocus();
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                    },
+                                    child: Padding(
+                                      padding: MediaQuery.viewInsetsOf(context),
+                                      child: BlogIcerigiWidget(
+                                        blogNo: wrapBlogRecord.blogNo,
+                                      ),
                                     ),
                                   ),
                                 );

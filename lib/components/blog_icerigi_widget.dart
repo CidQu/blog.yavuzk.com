@@ -4,12 +4,12 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_web_view.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'blog_icerigi_model.dart';
@@ -67,7 +67,7 @@ class _BlogIcerigiWidgetState extends State<BlogIcerigiWidget> {
             color: FlutterFlowTheme.of(context).accent4,
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Align(
@@ -106,9 +106,9 @@ class _BlogIcerigiWidgetState extends State<BlogIcerigiWidget> {
                             : null;
 
                     return Container(
+                      height: MediaQuery.sizeOf(context).height * 0.9,
                       constraints: BoxConstraints(
                         maxWidth: 700.0,
-                        maxHeight: MediaQuery.sizeOf(context).height * 0.9,
                       ),
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -182,16 +182,17 @@ class _BlogIcerigiWidgetState extends State<BlogIcerigiWidget> {
                                 ],
                               ),
                             ),
-                            Expanded(
-                              child: MarkdownBody(
-                                data:
-                                    FFLocalizations.of(context).languageCode ==
-                                            'en'
-                                        ? profileCardBlogRecord!.blogIceigiEN
-                                        : profileCardBlogRecord!.blogIcerigi,
-                                selectable: true,
-                                onTapLink: (_, url, __) => launchURL(url!),
+                            FlutterFlowWebView(
+                              content: valueOrDefault<String>(
+                                FFLocalizations.of(context).languageCode == 'en'
+                                    ? profileCardBlogRecord?.blogIceigiEN
+                                    : profileCardBlogRecord?.blogIcerigi,
+                                'Deneme',
                               ),
+                              height: MediaQuery.sizeOf(context).height * 0.7,
+                              verticalScroll: false,
+                              horizontalScroll: false,
+                              html: true,
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
@@ -199,6 +200,7 @@ class _BlogIcerigiWidgetState extends State<BlogIcerigiWidget> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   FFButtonWidget(
                                     onPressed: () async {
